@@ -3,48 +3,46 @@ import { courseService } from "../services/course.service";
 
 class CourseController {
 
-  createCourse(req: Request, res: Response) {
+  async createCourse(req: Request, res: Response) {
     try {
-      const course = courseService.createCourse(req.body);
+      const course = await courseService.createCourse(req.body);
       res.status(201).json(course);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }
   }
 
-  getAllCourses(req: Request, res: Response) {
+  async getAllCourses(req: Request, res: Response) {
     try {
-      const courses = courseService.getAllCourses(req.query);
+
+      const courses = await courseService.getAllCourses(req.query);
       res.status(200).json(courses);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }
   }
 
-  getCourseById(req: Request, res: Response) {
+  async getCourseById(req: Request, res: Response) {
     try {
-      const course = courseService.getCourseById(String(req.params.id));
+      const course = await courseService.getCourseById(String(req.params.id));
       res.status(200).json(course);
     } catch (error: any) {
       res.status(404).json({ message: error.message });
     }
   }
 
-  updateCourse(req: Request, res: Response) {
+  async updateCourse(req: Request, res: Response) {
     try {
-      const updatedCourse = courseService.updateCourse(
-        String(req.params.id),
-        req.body
-      );
-      res.status(200).json(updatedCourse);
+      const updated = await courseService.updateCourse(String(req.params.id), req.body);
+      res.status(200).json(updated);
     } catch (error: any) {
       res.status(404).json({ message: error.message });
     }
   }
 
-  deleteCourse(req: Request, res: Response) {
+  async deleteCourse(req: Request, res: Response) {
     try {
-      courseService.deleteCourse(String(req.params.id));
+      await courseService.deleteCourse(String(req.params.id));
       res.status(200).json({ message: "Course deleted successfully" });
     } catch (error: any) {
       res.status(404).json({ message: error.message });
